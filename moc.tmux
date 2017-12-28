@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-PLUGIN_DIR="$( cd "$( dirname "$0" )" && pwd )"
-PLUGIN_BASE="$( basename "$0" )"
-PLUGIN="$PLUGIN_DIR/$PLUGIN_BASE"
-
 patterns=(
     "\#{moc_title}"
     "\#{moc_artist}"
@@ -21,19 +17,19 @@ patterns=(
 )
 
 string=(
-    "#($PLUGIN title)"
-    "#($PLUGIN artist)"
-    "#($PLUGIN state)"
-    "#($PLUGIN song)"
-    "#($PLUGIN album)"
-    "#($PLUGIN tt)"
-    "#($PLUGIN ts)"
-    "#($PLUGIN tl)"
-    "#($PLUGIN ct)"
-    "#($PLUGIN cs)"
-    "#($PLUGIN file)"
-    "#($PLUGIN b)"
-    "#($PLUGIN r)"
+    "#(mocp -Q %%title)"
+    "#(mocp -Q %%artist)"
+    "#(mocp -Q %%state)"
+    "#(mocp -Q %%song)"
+    "#(mocp -Q %%album)"
+    "#(mocp -Q %%tt)"
+    "#(mocp -Q %%ts)"
+    "#(mocp -Q %%tl)"
+    "#(mocp -Q %%ct)"
+    "#(mocp -Q %%cs)"
+    "#(mocp -Q %%file)"
+    "#(mocp -Q %%b)"
+    "#(mocp -Q %%r)"
 )
 
 update_a_tmux_option () {
@@ -46,13 +42,9 @@ update_a_tmux_option () {
 }
 
 main() {
-    if [ -z "$1" ]; then
-        type mocp >/dev/null 2>&1 || exit 1
-        update_a_tmux_option "status-right"
-        update_a_tmux_option "status-left"
-    else
-        echo "$(mocp -Q \%$1 2>/dev/null)"
-    fi
+    type mocp >/dev/null 2>&1 || exit 1
+    update_a_tmux_option "status-right"
+    update_a_tmux_option "status-left"
 }
 
-main $1
+main
